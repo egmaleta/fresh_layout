@@ -9,7 +9,7 @@ const wrap = <Data = any>(page: Page<Data>, layout: Layout<Data>) => {
 };
 
 // deno-lint-ignore no-explicit-any
-export const apply = <Data = any>(
+export const applyLayouts = <Data = any>(
   page: Page<Data>,
   layouts: Layout<Data>[]
 ): Page<Data> => {
@@ -17,10 +17,10 @@ export const apply = <Data = any>(
     return page;
   }
 
-  return wrap(apply(page, layouts.slice(1)), layouts[0]);
+  return wrap(applyLayouts(page, layouts.slice(1)), layouts[0]);
 };
 
-export const applyLayouts = (manifest: Manifest): Manifest => {
+export const applyManifestLayouts = (manifest: Manifest): Manifest => {
   const layoutRoutes: RouteInfo[] = [];
   const pageRoutes: RouteInfo[] = [];
   // deno-lint-ignore no-explicit-any
@@ -58,7 +58,7 @@ export const applyLayouts = (manifest: Manifest): Manifest => {
     const branch = getRouteInfoBranch(ri, ri.path.split("/"), trie);
     const lastIndex = branch.length - 1;
 
-    const page = apply(
+    const page = applyLayouts(
       branch[lastIndex].module.default as Page,
       branch.slice(0, lastIndex).map((ri) => ri.module.default as Layout)
     );
