@@ -1,4 +1,4 @@
-import { Manifest, PageProps } from "./deps.ts";
+import { Manifest, PageProps, h } from "./deps.ts";
 import { buildTrie, getRouteInfoBranch } from "./trie.ts";
 import { Layout, Module, Page, RouteInfo } from "./types.ts";
 import { isMiddleware, is404, is500, isApp, isLayout } from "./utils.ts";
@@ -20,25 +20,36 @@ export const applyLayouts = <Data = any>(
   return wrap(applyLayouts(page, layouts.slice(1)), layouts[0]);
 };
 
+export const useLayout = (layout: Layout|any) => {
+  return (child: Page, props: any) => {
+    return h<typeof layout>(layout, {...props}, child(props));
+  };
+}
+
 export const applyManifestLayouts = (manifest: Manifest): Manifest => {
   const layoutRoutes: RouteInfo[] = [];
   const pageRoutes: RouteInfo[] = [];
   // deno-lint-ignore no-explicit-any
   const rest: { path: string; module: any }[] = [];
 
-  Object.entries(manifest.routes).forEach((entry) => {
-    const [route, mod] = entry;
-
+  Object.entries(manifest.routes).forEach(([route, mod]) => {
     const i = route.lastIndexOf("/");
     const routeFileName = route.slice(i + 1);
 
     if (
-      isMiddleware(routeFileName) ||
       is404(routeFileName) ||
       is500(routeFileName) ||
       isApp(routeFileName)
     ) {
       rest.push({ path: route, module: mod });
+    } else if (isMiddleware(routeFileName)) {
+      rest.push({ path: route, module: mod });
+      const module = mod as {config?: {layout: Layout}, default: Layout|any};
+      if(module.config?.layout) {
+        const routeDir = route.slice(0, i);
+        const layoutModule = {default: useLayout(module.config.layout)} as Module
+        layoutRoutes.push({ path: routeDir, module: layoutModule});
+      }
     } else {
       const module = mod as Module;
       if (module.default) {

@@ -17,7 +17,7 @@ Add **fresh_layouts** dependency to your `imports_map.json` file:
 
 ## Usage
 
-There are two ways to apply layouts to route pages:
+There are 3 ways to apply layouts to route pages:
 
 ### File-based routing way (recommended)
 
@@ -79,9 +79,36 @@ The above example will apply intuitively the layouts like this:
 </MainLayout>
 ```
 
-### Both?
+### Middleware way
 
-Yes, both ways can be used together. Just keep in mind that **per-route** layouts apply first.
+Add a config section to any `_middleware.ts` file:
+
+```tsx
+export const config = {
+  layout: Template
+}
+```
+
+Where `Template` is a normal preact component. This way will apply the layout to every page route that this middleware applies to.
+
+> Note: No need to wrap with `useLayout` or setup any differently than a normal react component. It will be wrapped automatically and have the props passed in.
+
+### useLayout helper
+
+If you want to apply a normal componet as a layout, you can use the `useLayout` helper:
+
+Example _layout.tsx file:
+
+```tsx
+import Dashboard from "~/components/Dashboard.tsx";
+import {useLayout} from "$fresh_layout";
+
+export default useLayout(Dashboard)
+```
+
+### All?
+
+Yes, all ways can be used together. Just keep in mind that **per-route** layouts apply first, then middleware layouts, then the _layout.tsx file.
 
 ## The `Layout` component
 
