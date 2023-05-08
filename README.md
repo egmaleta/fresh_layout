@@ -21,11 +21,11 @@ There are 3 ways to apply layouts to route pages:
 
 ### File-based routing way (recommended)
 
-In `main.ts` file, import `applyManifestLayouts` from `"$fresh_layouts/mod.ts"` and call `applyManifestLayouts` with `manifest`. Use the returned `Manifest` object to call the `start` function.
+In `main.ts` file, import `applyManifestLayouts` from `"$fresh_layout/mod.ts"` and call `applyManifestLayouts` with `manifest`. Use the returned `Manifest` object to call the `start` function.
 
 ```tsx
 ...
-import { applyManifestLayouts } from "$fresh_layouts/mod.ts";
+import { applyManifestLayouts } from "$fresh_layout/mod.ts";
 ...
 const newManifest = applyManifestLayouts(manifest);
 await start(newManifest, { plugins: [twindPlugin(twindConfig)] });
@@ -56,7 +56,7 @@ Write layout components anywhere, import them in your page route file and call `
 
 ```tsx
 // routes/path/to/page.tsx
-import { applyLayouts } from "$fresh_layouts/mod.ts";
+import { applyLayouts } from "$fresh_layout/mod.ts";
 
 import { mainLayout } from "path-to/main-layout.tsx";
 import { secondLayout } from "path-to/second-layout.tsx";
