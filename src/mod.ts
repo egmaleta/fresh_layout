@@ -51,14 +51,11 @@ export const applyManifestLayouts = (manifest: Manifest): Manifest => {
         layoutRoutes.push({ path: routeDir, module: layoutModule});
       }
     } else {
-      const module = mod as Module;
-      if (module.default) {
-        if (isLayout(routeFileName)) {
-          const routeDir = route.slice(0, i);
-          layoutRoutes.push({ path: routeDir, module });
-        } else {
-          pageRoutes.push({ path: route, module });
-        }
+      if (isLayout(routeFileName)) {
+        const routeDir = route.slice(0, i);
+        layoutRoutes.push({ path: routeDir, module });
+      } else {
+        pageRoutes.push({ path: route, module });
       }
     }
   });
