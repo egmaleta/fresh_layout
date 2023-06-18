@@ -1,6 +1,6 @@
 import { Manifest, PageProps, h } from "./deps.ts";
 import { buildTrie, getRouteInfoBranch } from "./trie.ts";
-import { Layout, Module, Page, RouteInfo } from "./types.ts";
+import { Layout, LayoutManifest, LayoutModule, Page, RouteInfo } from "./types.ts";
 import { isMiddleware, is404, is500, isApp, isLayout } from "./utils.ts";
 
 // deno-lint-ignore no-explicit-any
@@ -26,7 +26,7 @@ export const useLayout = (layout: Layout|any) => {
   };
 }
 
-export const applyManifestLayouts = (manifest: Manifest): Manifest => {
+export const applyManifestLayouts = (manifest: LayoutManifest): Manifest => {
   const layoutRoutes: RouteInfo[] = [];
   const pageRoutes: RouteInfo[] = [];
   // deno-lint-ignore no-explicit-any
@@ -47,11 +47,11 @@ export const applyManifestLayouts = (manifest: Manifest): Manifest => {
       const module = mod as {config?: {layout: Layout}, default: Layout|any};
       if(module.config?.layout) {
         const routeDir = route.slice(0, i);
-        const layoutModule = {default: useLayout(module.config.layout)} as Module
+        const layoutModule = {default: useLayout(module.config.layout)} as LayoutModule;
         layoutRoutes.push({ path: routeDir, module: layoutModule});
       }
     } else {
-      const module = mod as Module;
+      const module = mod as LayoutModule;
       if (module.default) {
         if (isLayout(routeFileName)) {
           const routeDir = route.slice(0, i);
