@@ -23,21 +23,11 @@ export interface LayoutModule {
 
 export interface PageRouteInfo {
   path: string;
-  module:
-    | PageModule
-    | RouteModule
-    | AppModule
-    | ErrorPageModule
-    | UnknownPageModule;
+  module: RouteModule | PageModule | UnknownPageModule | ErrorPageModule;
 }
 export interface LayoutRouteInfo {
   path: string;
-  module:
-    | LayoutModule
-    | RouteModule
-    | AppModule
-    | ErrorPageModule
-    | UnknownPageModule;
+  module: LayoutModule;
 }
 
 export interface LayoutManifest extends Omit<Manifest, "routes"> {
