@@ -23,7 +23,7 @@ export const applyManifestLayouts = (manifest: LayoutManifest): Manifest => {
   const pageRoutes: RouteInfo[] = [];
   const rest: {
     path: string;
-    module: Omit<LayoutManifest["routes"][string], "LayoutModule">;
+    module: Manifest;
   }[] = [];
 
   Object.entries(manifest.routes).forEach(([route, mod]) => {
@@ -34,11 +34,12 @@ export const applyManifestLayouts = (manifest: LayoutManifest): Manifest => {
       is404(routeFileName) ||
       is500(routeFileName) ||
       isApp(routeFileName) ||
-      isMiddleware(routeFileName) ||
-      ("handler" in mod)
+      isMiddleware(routeFileName)
     ) {
       rest.push({ path: route, module: mod });
-    } else if ("default" in mod) {
+    }
+
+    if ("default" in mod || "handler" in mod) {
       if (isLayout(routeFileName)) {
         const routeDir = route.slice(0, i);
         layoutRoutes.push({ path: routeDir, module: mod });
