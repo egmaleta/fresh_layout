@@ -1,7 +1,7 @@
-import { Manifest, PageProps } from "./deps.ts";
 import { buildTrie, getRouteInfoBranch } from "./trie.ts";
-import { Layout, LayoutManifest, Page, RouteInfo } from "./types.ts";
 import { is404, is500, isApp, isLayout, isMiddleware } from "./utils.ts";
+import type { Manifest, PageProps } from "./deps.ts";
+import type { Layout, LayoutManifest, Page, RouteInfo } from "./types.ts";
 
 const wrap = <Data = any>(page: Page<Data>, layout: Layout<Data>) => {
   return (props?: PageProps<Data>) => layout(page, props);
@@ -48,7 +48,7 @@ export const applyManifestLayouts = (manifest: LayoutManifest): Manifest => {
     }
   });
 
-  const trie = buildTrie([...layoutRoutes, ...pageRoutes, ...rest], "/");
+  const trie = buildTrie([...layoutRoutes, ...pageRoutes], "/");
 
   pageRoutes.forEach((ri) => {
     const branch = getRouteInfoBranch(ri, ri.path.split("/"), trie);

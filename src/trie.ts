@@ -1,4 +1,4 @@
-import { RouteInfo } from "./types.ts";
+import type { RouteInfo } from "./types.ts";
 
 interface RouteInfoTrieNode {
   key: string;
