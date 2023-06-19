@@ -25,7 +25,6 @@ export const applyLayouts = <Data = any>(
 };
 
 export const applyManifestLayouts = (manifest: LayoutManifest): Manifest => {
-  console.log({ manifest });
   const layoutRoutes: LayoutRouteInfo[] = [];
   const pageRoutes: PageRouteInfo[] = [];
   const rest: {
