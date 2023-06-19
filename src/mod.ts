@@ -34,7 +34,8 @@ export const applyManifestLayouts = (manifest: LayoutManifest): Manifest => {
       is404(routeFileName) ||
       is500(routeFileName) ||
       isApp(routeFileName) ||
-      isMiddleware(routeFileName)
+      isMiddleware(routeFileName) ||
+      "noLayout" in mod && mod.noLayout == true
     ) {
       rest.push({ path: route, module: mod });
     }
