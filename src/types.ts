@@ -13,21 +13,29 @@ export type Layout<Data = any> = (
   props?: PageProps<Data>,
 ) => JSX.Element;
 
-export interface LayoutModule {
-  default?: Layout;
-}
-
 export interface PageModule {
   default?: Page;
 }
 
-export interface RouteInfo {
+export interface LayoutModule {
+  default?: Layout;
+}
+
+export interface PageRouteInfo {
   path: string;
   module:
+    | PageModule
     | RouteModule
     | AppModule
-    | PageModule
+    | ErrorPageModule
+    | UnknownPageModule;
+}
+export interface LayoutRouteInfo {
+  path: string;
+  module:
     | LayoutModule
+    | RouteModule
+    | AppModule
     | ErrorPageModule
     | UnknownPageModule;
 }

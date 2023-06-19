@@ -1,7 +1,13 @@
 import { buildTrie, getRouteInfoBranch } from "./trie.ts";
 import { is404, is500, isApp, isLayout, isMiddleware } from "./utils.ts";
 import type { Manifest, PageProps } from "./deps.ts";
-import type { Layout, LayoutManifest, Page, RouteInfo } from "./types.ts";
+import type {
+  Layout,
+  LayoutManifest,
+  LayoutRouteInfo,
+  Page,
+  PageRouteInfo,
+} from "./types.ts";
 
 const wrap = <Data = any>(page: Page<Data>, layout: Layout<Data>) => {
   return (props?: PageProps<Data>) => layout(page, props);
@@ -19,34 +25,36 @@ export const applyLayouts = <Data = any>(
 };
 
 export const applyManifestLayouts = (manifest: LayoutManifest): Manifest => {
-  const layoutRoutes: RouteInfo[] = [];
-  const pageRoutes: RouteInfo[] = [];
+  console.log({ manifest });
+  const layoutRoutes: LayoutRouteInfo[] = [];
+  const pageRoutes: PageRouteInfo[] = [];
   const rest: {
     path: string;
-    module: Manifest;
+    module: Manifest["routes"][string];
   }[] = [];
 
   Object.entries(manifest.routes).forEach(([route, mod]) => {
     const i = route.lastIndexOf("/");
     const routeFileName = route.slice(i + 1);
 
+    if (isLayout(routeFileName, mod)) {
+      const routeDir = route.slice(0, i);
+      layoutRoutes.push({ path: routeDir, module: mod });
+      return;
+    }
+
     if (
-      is404(routeFileName) ||
-      is500(routeFileName) ||
-      isApp(routeFileName) ||
-      isMiddleware(routeFileName) ||
-      "noLayout" in mod && mod.noLayout == true
+      is404(routeFileName, mod) ||
+      is500(routeFileName, mod) ||
+      isApp(routeFileName, mod) ||
+      isMiddleware(routeFileName, mod)
     ) {
       rest.push({ path: route, module: mod });
+      return;
     }
 
     if ("default" in mod || "handler" in mod) {
-      if (isLayout(routeFileName)) {
-        const routeDir = route.slice(0, i);
-        layoutRoutes.push({ path: routeDir, module: mod });
-      } else {
-        pageRoutes.push({ path: route, module: mod });
-      }
+      pageRoutes.push({ path: route, module: mod });
     }
   });
 
