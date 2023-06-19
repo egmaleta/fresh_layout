@@ -9,11 +9,10 @@ interface RouteInfoTrieNode {
 const add = (
   routeInfo: RouteInfo,
   keys: string[],
-  trie: RouteInfoTrieNode[]
+  trie: RouteInfoTrieNode[],
 ) => {
   // split keys in first key and the rest
-  const first = keys[0];
-  const rest = keys.slice(1);
+  const [first, ...rest] = keys;
 
   // search for a trie node with the first key
   // if not found, create a new trie node with it
@@ -35,10 +34,9 @@ const add = (
 export const getRouteInfoBranch = (
   routeInfo: RouteInfo,
   keys: string[],
-  trie: RouteInfoTrieNode[]
+  trie: RouteInfoTrieNode[],
 ) => {
-  const first = keys[0];
-  const rest = keys.slice(1);
+  const [first, ...rest] = keys;
 
   const result: RouteInfo[] = [];
 
