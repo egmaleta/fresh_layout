@@ -1,12 +1,5 @@
 import { buildTrie, getRouteInfoBranch } from "./trie.ts";
-import {
-  is404,
-  is500,
-  isApp,
-  isLayout,
-  isMiddleware,
-  isPage,
-} from "./utils.ts";
+import { isLayout, isPage } from "./utils.ts";
 import type { Manifest, PageProps } from "./deps.ts";
 import type {
   Layout,
@@ -54,13 +47,7 @@ export const applyManifestLayouts = (manifest: LayoutManifest): Manifest => {
       return;
     }
 
-    if (
-      is404(routeFileName, mod) ||
-      is500(routeFileName, mod) ||
-      isApp(routeFileName, mod) ||
-      isMiddleware(routeFileName, mod) ||
-      "handler" in mod
-    ) {
+    if ("default" in mod || "handler" in mod) {
       rest.push({ path: route, module: mod });
       return;
     }
