@@ -1,5 +1,5 @@
 import { buildTrie, getRouteInfoBranch } from "./trie.ts";
-import { isLayout, isPage } from "./utils.ts";
+import { isIgnoredFile, isLayout, isPage } from "./utils.ts";
 import type { Manifest, PageProps } from "./deps.ts";
 import type {
   Layout,
@@ -35,6 +35,10 @@ export const applyManifestLayouts = (manifest: LayoutManifest): Manifest => {
   Object.entries(manifest.routes).forEach(([route, mod]) => {
     const i = route.lastIndexOf("/");
     const routeFileName = route.slice(i + 1);
+
+    if (isIgnoredFile(routeFileName)) {
+      return;
+    }
 
     if (isLayout(routeFileName, mod)) {
       const routeDir = route.slice(0, i);

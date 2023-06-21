@@ -5,11 +5,15 @@ import {
 } from "https://deno.land/x/fresh@1.1.6/src/server/types.ts";
 import { LayoutManifest, LayoutModule, PageModule } from "./types.ts";
 
+export const isIgnoredFile = (fileName: string) => {
+  return /^\(.*\)\.(tsx|jsx|ts|js)$/.test(fileName);
+};
+
 export const isPage = (
   fileName: string,
   mod: LayoutManifest["routes"][string],
 ): mod is PageModule => {
-  return /^(?!_layout|_app|_middleware|_404|_500|\(.*\)).+\.(tsx|jsx|ts|js)$/
+  return /^(?!_layout|_app|_middleware|_404|_500).+\.(tsx|jsx|ts|js)$/
     .test(
       fileName,
     ) && "default" in mod;
