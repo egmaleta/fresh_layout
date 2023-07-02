@@ -1,9 +1,5 @@
-import {
-  AppModule,
-  ErrorPageModule,
-  MiddlewareModule,
-} from "https://deno.land/x/fresh@1.1.6/src/server/types.ts";
 import { LayoutManifest, LayoutModule, PageModule } from "./types.ts";
+import { AppModule, ErrorPageModule, MiddlewareModule } from "./deps.ts";
 
 export const isIgnoredFile = (fileName: string) => {
   return /^\(.*\)\.(tsx|jsx|ts|js)$/.test(fileName);

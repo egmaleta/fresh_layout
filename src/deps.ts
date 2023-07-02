@@ -5,6 +5,7 @@ export type {
 export type {
   AppModule,
   ErrorPageModule,
+  MiddlewareModule,
   RouteModule,
   UnknownPageModule,
 } from "https://deno.land/x/fresh@1.2.0/src/server/types.ts";

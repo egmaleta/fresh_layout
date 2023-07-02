@@ -71,10 +71,14 @@ export const applyManifestLayouts = (manifest: LayoutManifest): Manifest => {
     ri.module = { ...ri.module, default: page };
   });
 
+  const routes = Object.fromEntries(
+    [...pageRoutes, ...rest].map((
+      { path, module },
+    ) => [path, module]),
+  );
+
   return {
     ...manifest,
-    routes: Object.fromEntries(
-      [...pageRoutes, ...rest].map(({ path, module }) => [path, module]),
-    ),
+    routes,
   };
 };
