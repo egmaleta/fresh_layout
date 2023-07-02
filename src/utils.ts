@@ -10,9 +10,7 @@ export const isPage = (
   mod: LayoutManifest["routes"][string],
 ): mod is PageModule => {
   return /^(?!_layout|_app|_middleware|_404|_500).+\.(tsx|jsx|ts|js)$/
-    .test(
-      fileName,
-    ) && "default" in mod;
+    .test(fileName) && "default" in mod;
 };
 
 export const isLayout = (

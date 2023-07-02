@@ -41,8 +41,7 @@ export const applyManifestLayouts = (manifest: LayoutManifest): Manifest => {
     }
 
     if (isLayout(routeFileName, mod)) {
-      const routeDir = route.slice(0, i);
-      layoutRoutes.push({ path: routeDir, module: mod });
+      layoutRoutes.push({ path: route.slice(0, i), module: mod });
       return;
     }
 
