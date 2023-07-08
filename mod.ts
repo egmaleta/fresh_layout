@@ -1,2 +1,2 @@
-export type { Page, Layout } from "./src/types.ts";
-export { applyManifestLayouts, applyLayouts, useLayout } from "./src/mod.ts";
+export type { Layout, Page } from "./src/types.ts";
+export { applyLayouts, applyManifestLayouts } from "./src/mod.ts";
