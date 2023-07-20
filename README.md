@@ -95,7 +95,7 @@ Where `Template` is a normal preact component. This way will apply the layout to
 
 ### useLayout helper
 
-If you want to apply a normal componet as a layout, you can use the `useLayout` helper:
+If you want to apply a normal component as a layout, you can use the `useLayout` helper:
 
 Example _layout.tsx file:
 
